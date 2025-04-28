@@ -870,6 +870,11 @@ class Describe_Paragraph(object):
         assert text == expected_value
         assert isinstance(text, str)
 
+    def it_can_change_its_bullet(self, bullet_set_fixture):
+        paragraph, new_value, expected_xml = bullet_set_fixture
+        paragraph.bullet = new_value
+        assert paragraph._element.xml == expected_xml
+
     @pytest.mark.parametrize(
         ("p_cxml", "value", "expected_cxml"),
         [
@@ -1118,6 +1123,24 @@ class Describe_Paragraph(object):
         p_cxml, expected_value = request.param
         p = element(p_cxml)
         return p, expected_value
+
+    
+    @pytest.fixture(
+        params=[
+            ("a:p", 'x', 'a:p/a:pPr/a:buChar{char=x}'),
+            ("a:p", True, u'a:p/a:pPr/a:buChar{char=\u2022}'),
+            ("a:p", False, 'a:p/a:pPr/a:buNone'),
+            ("a:p", None, 'a:p/a:pPr'),
+            ("a:p/a:pPr/a:buNone", None, 'a:p/a:pPr'),
+            (u'a:p/a:pPr/a:buChar', None, 'a:p/a:pPr'),
+        ]
+    )
+    def bullet_set_fixture(self, request):
+        p_cxml, new_value, expected_p_cxml = request.param
+        paragraph = _Paragraph(element(p_cxml), None)
+        expected_xml = xml(expected_p_cxml)
+        return paragraph, new_value, expected_xml
+
 
     # fixture components -----------------------------------
 
