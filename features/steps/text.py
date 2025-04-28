@@ -138,6 +138,18 @@ def when_set_hyperlink_address(context):
     hlink.address = context.address
 
 
+@when("I assign paragraph.bullet = {value_str}")
+def when_I_assign_value_to_paragraph_bullet(context, value_str):
+    value = {
+        "x": "x",
+        "True": True,
+        "False": False,
+        "None": None,
+    }[value_str]
+    paragraph = context.paragraph
+    paragraph.bullet = value
+
+
 # then ====================================================
 
 
@@ -246,3 +258,9 @@ def then_run_text_is_not_a_hyperlink(context):
 @then("the font name matches the typeface I set")
 def then_font_name_matches_typeface_I_set(context):
     assert context.font.name == "Verdana"
+
+
+@then("paragraph.bullet == {value}")
+def then_paragraph_bullet_is_value(context, value):
+    actual, expected = context.paragraph.bullet, eval(value)
+    assert actual == expected, 'paragraph.bullet == "%s"' % actual
