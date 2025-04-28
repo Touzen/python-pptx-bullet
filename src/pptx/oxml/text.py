@@ -26,6 +26,7 @@ from pptx.oxml.simpletypes import (
     ST_TextTypeface,
     ST_TextWrappingType,
     XsdBoolean,
+    XsdString,
 )
 from pptx.oxml.xmlchemy import (
     BaseOxmlElement,
@@ -466,9 +467,13 @@ class CT_TextParagraphProperties(BaseOxmlElement):
     _add_lnSpc: Callable[[], CT_TextSpacing]
     _add_spcAft: Callable[[], CT_TextSpacing]
     _add_spcBef: Callable[[], CT_TextSpacing]
+    _add_buNone: Callable[[], CT_TextNoBullet]
+    _add_buChar: Callable[[], CT_TextCharBullet]
     _remove_lnSpc: Callable[[], None]
     _remove_spcAft: Callable[[], None]
     _remove_spcBef: Callable[[], None]
+    _remove_buNone: Callable[[], None]
+    _remove_buChar: Callable[[], None]
 
     _tag_seq = (
         "a:lnSpc",
@@ -500,6 +505,12 @@ class CT_TextParagraphProperties(BaseOxmlElement):
     )
     defRPr: CT_TextCharacterProperties | None = ZeroOrOne(  # pyright: ignore[reportAssignmentType]
         "a:defRPr", successors=_tag_seq[16:]
+    )
+    buNone: CT_TextNoBullet | None = ZeroOrOne(  # pyright: ignore[reportAssignmentType]
+        "a:buNone", successors=_tag_seq[11:]
+    )
+    buChar: CT_TextCharBullet | None = ZeroOrOne(  # pyright: ignore[reportAssignmentType]
+        "a:buChar", successors=_tag_seq[13:]
     )
     lvl: int = OptionalAttribute(  # pyright: ignore[reportAssignmentType]
         "lvl", ST_TextIndentLevelType, default=0
@@ -533,6 +544,33 @@ class CT_TextParagraphProperties(BaseOxmlElement):
             self._add_lnSpc().set_spcPts(value)
         else:
             self._add_lnSpc().set_spcPct(value)
+
+    @property
+    def bullet(self) -> bool | str | None:
+        buNone = self.buNone
+        buChar = self.buChar
+        if buNone is not None:
+            return False
+        if buChar is not None:
+            return buChar.char
+
+    @bullet.setter
+    def bullet(self, value: bool | str | None):
+        self._remove_buNone()
+        self._remove_buChar()
+        if value is None:
+            return
+        if isinstance(value, bool):
+            if value:
+                buChar = self._add_buChar()
+                buChar.char = u"\u2022"
+            else:
+                self._add_buNone()
+
+        else:
+            buChar = self._add_buChar()
+            buChar.char = value
+
 
     @property
     def space_after(self) -> Length | None:
@@ -615,4 +653,21 @@ class CT_TextSpacingPoint(BaseOxmlElement):
 
     val: Length = RequiredAttribute(  # pyright: ignore[reportAssignmentType]
         "val", ST_TextSpacingPoint
+    )
+
+
+class CT_TextNoBullet(BaseOxmlElement):
+    """
+    <a:buNone> element, specifying that a paragraph should not be bulleted.
+    """
+    pass
+ 
+
+class CT_TextCharBullet(BaseOxmlElement):
+    """
+    <a:buChar> element, specifying that a paragraph should have a character bullet.
+    """
+
+    char: str = RequiredAttribute(  # pyright: ignore[reportAssignmentType]
+        "char", XsdString
     )

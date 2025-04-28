@@ -548,6 +548,18 @@ class _Paragraph(Subshape):
         pPr.line_spacing = value
 
     @property
+    def bullet(self):
+        pPr = self._p.pPr
+        if pPr is None:
+            return None
+        return pPr.bullet
+    
+    @bullet.setter
+    def bullet(self, value: bool | str | None):
+        pPr = self._p.get_or_add_pPr()
+        pPr.bullet = value
+
+    @property
     def runs(self) -> tuple[_Run, ...]:
         """Sequence of runs in this paragraph."""
         return tuple(_Run(r, self) for r in self._element.r_lst)
