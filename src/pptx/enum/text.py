@@ -228,3 +228,53 @@ class PP_PARAGRAPH_ALIGNMENT(BaseXmlEnum):
 
 
 PP_ALIGN = PP_PARAGRAPH_ALIGNMENT
+
+
+class MSO_NUMBERED_BULLET_STYLE(BaseXmlEnum):
+    """
+    MS API Name: `MsoNumberedBulletStyle`
+    https://learn.microsoft.com/sv-se/office/vba/api/office.msonumberedbulletstyle
+    """
+
+    BULLET_ALPHA_LC_PAREN_BOTH = (8, "alphaLCParenBoth", "Lowercase alphabetical bullet with opening and closing parentheses.")
+    BULLET_ALPHA_LC_PAREN_RIGHT = (9, "alphaLCParenRight", "Lowercase alphabetical bullet with closing parenthesis.")
+    BULLET_ALPHA_LC_PERIOD = (0, "alphaLCPeriod", "Lowercase alphabetical bullet with period.|")
+    BULLET_ALPHA_UC_PAREN_BOTH = (10, "alphaUCParenBoth", "Uppercase alphabetical bullet with opening and closing parentheses.")
+    BULLET_ALPHA_UC_PAREN_RIGHT = (11, "alphaUCParenRight", "Uppercase alphabetical bullet with closing parenthesis.")
+    BULLET_ALPHA_UC_PERIOD = (1, "alphaUCPeriod", "Uppercase alphabetical bullet with period.")
+    BULLET_ARABIC_ABJAD_DASH = (24, "arabicAbjadDash", "Arabic Abjad bullet with a dash.")
+    BULLET_ARABIC_ALPHA_DASH = (23, "arabicAlphaDash", "Arabic alphabetical bullet with a dash.")
+    BULLET_ARABIC_DB_PERIOD = (29, "arabicDBPeriod", "Arabic DB bullet with period.")
+    BULLET_ARABIC_DB_PLAIN = (28, "arabicDBPlain", "Plain Arabic DB bullet.")
+    BULLET_ARABIC_PAREN_BOTH = (12, "arabicParenBoth", "Arabic bullet with opening and closing parentheses.")
+    BULLET_ARABIC_PAREN_RIGHT = (2, "arabicParenRight", "Arabic bullet with closing parenthesis.")
+    BULLET_ARABIC_PERIOD = (3, "arabicPeriod", "Arabic bullet with period.")
+    BULLET_ARABIC_PLAIN = (13, "arabicPlain", "Plain Arabic bullet.")
+    BULLET_CIRCLE_NUM_DB_PLAIN = (18, "circleNumDBPlain", "Circled number bullet.")
+    BULLET_CIRCLE_NUM_WD_BLACK_PLAIN = (20, "circleNumWDBlackPlain", "Circled number WD black bullet.")
+    BULLET_CIRCLE_NUM_WD_WHITE_PLAIN = (19, "circleNumWDWhitePlain", "Circled number WD white bullet.")
+    BULLET_HEBREW_ALPHA_DASH = (25, "hebrewAlphaDash", "Hebrew alphabetical bullet with dash.")
+    BULLET_HINDI_ALPHA_1PERIOD = (40, "hindiAlpha1Period", "Hindi alphabetical bullet 1 with period.")
+    BULLET_HINDI_ALPHA_PERIOD = (36, "hindiAlphaPeriod", "Hindi alphabetical bullet with period.")
+    BULLET_HINDI_NUM_PAREN_RIGHT = (39, "hindiNumParenRight", "Hindi numbered bullet with closing parenthesis.")
+    BULLET_HINDI_NUM_PERIOD = (37, "hindiNumPeriod", "Hindi numbered bullet with period.")
+    BULLET_KANJI_KOREAN_PERIOD = (27, "kanjiKoreanPeriod", "Korean Kanji bullet with period.")
+    BULLET_KANJI_KOREAN_PLAIN = (26, "kanjiKoreanPlain", "Korean Kanji bullet.")
+    BULLET_KANJI_SIMP_CHIN_DB_PERIOD = (38, "kanjiSimpChinDBPeriod", "Simplified Chinese Kanji bulllet with period.")
+    BULLET_ROMAN_LC_PAREN_BOTH = (4, "romanLCParenBoth", "Lowercase roman bullet with opening and closing parentheses.")
+    BULLET_ROMAN_LC_PAREN_RIGHT = (5, "romanLCParenRight", "Lowercase roman bullet with closing parenthesis.")
+    BULLET_ROMAN_LC_PERIOD = (6, "romanLCPeriod", "Lowercase roman bullet with period.")
+    BULLET_ROMAN_UC_PAREN_BOTH = (14, "romanUCParenBoth", "Uppercase roman bullet with opening and closing parentheses.")
+    BULLET_ROMAN_UC_PAREN_RIGHT = (15, "romanUCParenRight", "Uppercase roman bullet with closing parenthesis.")
+    BULLET_ROMAN_UC_PERIOD = (7, "romanUCPeriod", "Uppercase roman bullet with period.")
+    BULLET_SIMP_CHIN_PERIOD = (17, "simpChinPeriod", "Simplified Chinese bulllet with period.")
+    BULLET_SIMP_CHIN_PLAIN = (16, "simpChinPlain", "Simplified Chinese bullet.")
+    BULLET_STYLE_MIXED = (-2, "styleMixed", "Return value only; indicates a combination of the other states. ")
+    BULLET_THAI_ALPHA_PAREN_BOTH = (32, "thaiAlphaParenBoth", "Thai alphabetical bullet with opening and closing parentheses.")
+    BULLET_THAI_ALPHA_PAREN_RIGHT = (31, "thaiAlphaParenRight", "Thai alphabetical bullet with closing parenthesis.")
+    BULLET_THAI_ALPHA_PERIOD = (30, "thaiAlphaPeriod", "Thai alphabetical bullet with period.")
+    BULLET_THAI_NUM_PAREN_BOTH = (35, "thaiNumParenBoth", "Thai numerical bullet with opening and closing parentheses.")
+    BULLET_THAI_NUM_PAREN_RIGHT = (34, "thaiNumParenRight", "Thai numerical bullet with closing parenthesis.")
+    BULLET_THAI_NUM_PERIOD = (33, "thaiNumPeriod", "Thai numerical bullet with period.")
+    BULLET_TRAD_CHIN_PERIOD = (22, "tradChinPeriod", "Traditional Chinese bulllet with period.")
+    BULLET_TRAD_CHIN_PLAIN = (21, "tradChinPlain", "Traditional Chinese bulllet.")
