@@ -6,7 +6,7 @@ from behave import given, then, when
 from helpers import test_pptx
 
 from pptx import Presentation
-from pptx.enum.text import PP_ALIGN
+from pptx.enum.text import MSO_NUMBERED_BULLET_STYLE, PP_ALIGN
 from pptx.util import Emu
 
 # given ===================================================
@@ -145,6 +145,7 @@ def when_I_assign_value_to_paragraph_bullet(context, value_str):
         "True": True,
         "False": False,
         "None": None,
+        "hindiAlphaPeriod": MSO_NUMBERED_BULLET_STYLE.BULLET_HINDI_ALPHA_PERIOD,
     }[value_str]
     paragraph = context.paragraph
     paragraph.bullet = value
@@ -259,8 +260,12 @@ def then_run_text_is_not_a_hyperlink(context):
 def then_font_name_matches_typeface_I_set(context):
     assert context.font.name == "Verdana"
 
-
 @then("paragraph.bullet == {value}")
 def then_paragraph_bullet_is_value(context, value):
     actual, expected = context.paragraph.bullet, eval(value)
     assert actual == expected, 'paragraph.bullet == "%s"' % actual
+
+@then("paragraph.bullet is the right style")
+def then_paragraph_bullet_is_value(context):
+    actual = context.paragraph.bullet
+    assert actual == MSO_NUMBERED_BULLET_STYLE.BULLET_HINDI_ALPHA_PERIOD, 'paragraph.bullet == "%s"' % actual
