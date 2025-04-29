@@ -1143,10 +1143,10 @@ class Describe_Paragraph(object):
             ("a:p/a:pPr/a:buNone", None, "a:p/a:pPr"),
             ("a:p/a:pPr/a:buChar", None, "a:p/a:pPr"),
             ("a:p/a:pPr/a:buAutoNum", None, "a:p/a:pPr"),
-            ("a:p", MSO_NUMBERED_BULLET_STYLE.BULLET_ROMAN_UC_PERIOD, "a:p/a:pPr/a:buAutoNum{type=romanUCPeriod}"),
-            ("a:p/a:pPr/a:buChar", MSO_NUMBERED_BULLET_STYLE.BULLET_ALPHA_LC_PERIOD, "a:p/a:pPr/a:buAutoNum{type=alphaLCPeriod}"),
-            ("a:p/a:pPr/a:buNone", MSO_NUMBERED_BULLET_STYLE.BULLET_ARABIC_ABJAD_DASH, "a:p/a:pPr/a:buAutoNum{type=arabicAbjadDash}"),
-            ("a:p/a:pPr/a:buAutoNum", MSO_NUMBERED_BULLET_STYLE.BULLET_TRAD_CHIN_PLAIN, "a:p/a:pPr/a:buAutoNum{type=tradChinPlain}"),
+            ("a:p", MSO_NUMBERED_BULLET_STYLE.ROMAN_UC_PERIOD, "a:p/a:pPr/a:buAutoNum{type=romanUCPeriod}"),
+            ("a:p/a:pPr/a:buChar", MSO_NUMBERED_BULLET_STYLE.ALPHA_LC_PERIOD, "a:p/a:pPr/a:buAutoNum{type=alphaLCPeriod}"),
+            ("a:p/a:pPr/a:buNone", MSO_NUMBERED_BULLET_STYLE.ARABIC_ABJAD_DASH, "a:p/a:pPr/a:buAutoNum{type=arabicAbjadDash}"),
+            ("a:p/a:pPr/a:buAutoNum", MSO_NUMBERED_BULLET_STYLE.TRAD_CHIN_PLAIN, "a:p/a:pPr/a:buAutoNum{type=tradChinPlain}"),
         ]
     )
     def bullet_set_fixture(self, request):

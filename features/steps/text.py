@@ -145,7 +145,7 @@ def when_I_assign_value_to_paragraph_bullet(context, value_str):
         "True": True,
         "False": False,
         "None": None,
-        "hindiAlphaPeriod": MSO_NUMBERED_BULLET_STYLE.BULLET_HINDI_ALPHA_PERIOD,
+        "hindiAlphaPeriod": MSO_NUMBERED_BULLET_STYLE.HINDI_ALPHA_PERIOD,
     }[value_str]
     paragraph = context.paragraph
     paragraph.bullet = value
@@ -268,4 +268,4 @@ def then_paragraph_bullet_is_value(context, value):
 @then("paragraph.bullet is the right style")
 def then_paragraph_bullet_is_value(context):
     actual = context.paragraph.bullet
-    assert actual == MSO_NUMBERED_BULLET_STYLE.BULLET_HINDI_ALPHA_PERIOD, 'paragraph.bullet == "%s"' % actual
+    assert actual == MSO_NUMBERED_BULLET_STYLE.HINDI_ALPHA_PERIOD, 'paragraph.bullet == "%s"' % actual
