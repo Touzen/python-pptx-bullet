@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING, Iterator, cast
 from pptx.dml.fill import FillFormat
 from pptx.enum.dml import MSO_FILL
 from pptx.enum.lang import MSO_LANGUAGE_ID
-from pptx.enum.text import MSO_AUTO_SIZE, MSO_UNDERLINE, MSO_VERTICAL_ANCHOR
+from pptx.enum.text import MSO_AUTO_SIZE, MSO_NUMBERED_BULLET_STYLE, MSO_UNDERLINE, MSO_VERTICAL_ANCHOR
 from pptx.opc.constants import RELATIONSHIP_TYPE as RT
 from pptx.oxml.simpletypes import ST_TextWrappingType
 from pptx.shapes import Subshape
@@ -548,14 +548,14 @@ class _Paragraph(Subshape):
         pPr.line_spacing = value
 
     @property
-    def bullet(self):
+    def bullet(self) -> bool | str | MSO_NUMBERED_BULLET_STYLE | None:
         pPr = self._p.pPr
         if pPr is None:
             return None
         return pPr.bullet
     
     @bullet.setter
-    def bullet(self, value: bool | str | None):
+    def bullet(self, value: bool | str | MSO_NUMBERED_BULLET_STYLE | None):
         pPr = self._p.get_or_add_pPr()
         pPr.bullet = value
 

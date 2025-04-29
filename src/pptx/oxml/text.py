@@ -8,6 +8,7 @@ from typing import TYPE_CHECKING, Callable, cast
 from pptx.enum.lang import MSO_LANGUAGE_ID
 from pptx.enum.text import (
     MSO_AUTO_SIZE,
+    MSO_NUMBERED_BULLET_STYLE,
     MSO_TEXT_UNDERLINE_TYPE,
     MSO_VERTICAL_ANCHOR,
     PP_PARAGRAPH_ALIGNMENT,
@@ -469,11 +470,13 @@ class CT_TextParagraphProperties(BaseOxmlElement):
     _add_spcBef: Callable[[], CT_TextSpacing]
     _add_buNone: Callable[[], CT_TextNoBullet]
     _add_buChar: Callable[[], CT_TextCharBullet]
+    _add_buAutoNum: Callable[[], CT_TextAutoNumberBullet]
     _remove_lnSpc: Callable[[], None]
     _remove_spcAft: Callable[[], None]
     _remove_spcBef: Callable[[], None]
     _remove_buNone: Callable[[], None]
     _remove_buChar: Callable[[], None]
+    _remove_buAutoNum: Callable[[], CT_TextAutoNumberBullet]
 
     _tag_seq = (
         "a:lnSpc",
@@ -508,6 +511,9 @@ class CT_TextParagraphProperties(BaseOxmlElement):
     )
     buNone: CT_TextNoBullet | None = ZeroOrOne(  # pyright: ignore[reportAssignmentType]
         "a:buNone", successors=_tag_seq[11:]
+    )
+    buAutoNum: CT_TextAutoNumberBullet | None = ZeroOrOne(  # pyright: ignore[reportAssignmentType]
+        "a:buAutoNum", successors=_tag_seq[12:]
     )
     buChar: CT_TextCharBullet | None = ZeroOrOne(  # pyright: ignore[reportAssignmentType]
         "a:buChar", successors=_tag_seq[13:]
@@ -546,18 +552,22 @@ class CT_TextParagraphProperties(BaseOxmlElement):
             self._add_lnSpc().set_spcPct(value)
 
     @property
-    def bullet(self) -> bool | str | None:
+    def bullet(self) -> bool | str | MSO_NUMBERED_BULLET_STYLE | None:
         buNone = self.buNone
         buChar = self.buChar
-        if buNone is not None:
+        buAutoNum = self.buAutoNum
+        if buNone is not None and buAutoNum is None:
             return False
         if buChar is not None:
             return buChar.char
+        if buAutoNum is not None:
+            return buAutoNum.val
 
     @bullet.setter
-    def bullet(self, value: bool | str | None):
+    def bullet(self, value: bool | str | MSO_NUMBERED_BULLET_STYLE | None):
         self._remove_buNone()
         self._remove_buChar()
+        self._remove_buAutoNum()
         if value is None:
             return
         if isinstance(value, bool):
@@ -566,7 +576,9 @@ class CT_TextParagraphProperties(BaseOxmlElement):
                 buChar.char = u"\u2022"
             else:
                 self._add_buNone()
-
+        elif isinstance(value, MSO_NUMBERED_BULLET_STYLE):
+            buAutoNum = self._add_buAutoNum()
+            buAutoNum.val = value
         else:
             buChar = self._add_buChar()
             buChar.char = value
@@ -670,4 +682,15 @@ class CT_TextCharBullet(BaseOxmlElement):
 
     char: str = RequiredAttribute(  # pyright: ignore[reportAssignmentType]
         "char", XsdString
+    )
+ 
+
+class CT_TextAutoNumberBullet(BaseOxmlElement):
+    """
+    <a:buAutoNum> element, specifying that a paragraph should have an automatically
+    incremented bullet of the specified `type`.
+    """
+
+    val: MSO_NUMBERED_BULLET_STYLE = RequiredAttribute(  # pyright: ignore[reportAssignmentType]
+        "type", MSO_NUMBERED_BULLET_STYLE
     )
