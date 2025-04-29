@@ -231,8 +231,16 @@ PP_ALIGN = PP_PARAGRAPH_ALIGNMENT
 
 
 class MSO_NUMBERED_BULLET_STYLE(BaseXmlEnum):
-    """
+    """Specifies the style of numbered bullets.
+
+    Example::
+
+        from pptx.enum.text import MSO_NUMBERED_BULLET_STYLE
+
+        shape.paragraphs[0].bullet = MSO_NUMBERED_BULLET_STYLE.BULLET_ALPHA_UC_PERIOD
+
     MS API Name: `MsoNumberedBulletStyle`
+
     https://learn.microsoft.com/sv-se/office/vba/api/office.msonumberedbulletstyle
     """
 
