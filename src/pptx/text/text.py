@@ -549,6 +549,14 @@ class _Paragraph(Subshape):
 
     @property
     def bullet(self) -> bool | str | MSO_NUMBERED_BULLET_STYLE | None:
+        """The type of bullet used for this paragraph.
+
+        A string value means that the paragraph has a bullet set to this string. If the value
+        is an |MSO_NUMBERED_BULLET_STYLE|, then the paragraph's bullet is automatically
+        numbered according to the corresponding style. |False| indicates that bullets are
+        turned off for this paragraph. |None| indicates that a bullet exists if the template
+        of the current slide defines this as the default form for paragraphs.
+        """
         pPr = self._p.pPr
         if pPr is None:
             return None

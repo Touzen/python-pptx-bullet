@@ -558,8 +558,8 @@ class CT_TextParagraphProperties(BaseOxmlElement):
         A string value means that the paragraph has a bullet set to this string. If the value
         is an |MSO_NUMBERED_BULLET_STYLE|, then the paragraph's bullet is automatically
         numbered according to the corresponding style. |False| indicates that bullets are
-        turned off for this paragraph. |None| indicates that a bullet are not displayed for
-        this paragraph but that it is not actively turned off.
+        turned off for this paragraph. |None| indicates that a bullet exists if the template
+        of the current slide defines this as the default form for paragraphs.
         """
         buNone = self.buNone
         buChar = self.buChar
