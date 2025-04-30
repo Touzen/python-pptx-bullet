@@ -1,6 +1,7 @@
 """Enumerations used by text and related objects."""
 
 from __future__ import annotations
+from enum import Enum, auto
 
 from pptx.enum.base import BaseEnum, BaseXmlEnum
 
@@ -228,6 +229,14 @@ class PP_PARAGRAPH_ALIGNMENT(BaseXmlEnum):
 
 
 PP_ALIGN = PP_PARAGRAPH_ALIGNMENT
+
+
+class BulletStyleType(Enum):
+    """Types of bullet styles."""
+    NO_BULLET = auto()
+    CUSTOM = auto()
+    NUMBERED = auto()
+    DEFAULT = auto()
 
 
 class MSO_NUMBERED_BULLET_STYLE(BaseXmlEnum):
