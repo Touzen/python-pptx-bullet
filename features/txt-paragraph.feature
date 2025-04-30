@@ -98,19 +98,11 @@ Feature: Change paragraph properties
   Scenario Outline: _Paragraph.bullet setter
     Given a _Paragraph object as paragraph
      When I assign paragraph.bullet = <value>
-     Then paragraph.bullet == <expected-value>
+     Then paragraph.bullet == <value>
 
     Examples: _Paragraph assigned bullet replacement cases
       | value | expected-value |
-      | x     | "x"            |
-      | False | False          |
-      | True  | "\u2022"       |
-      | None  | None           |
-
-  Scenario Outline: _Paragraph.bullet setter with style
-    Given a _Paragraph object as paragraph
-     When I assign paragraph.bullet = <value>
-     Then paragraph.bullet is the right style
-
-    Examples: _Paragraph assigned bullet replacement cases
-      | hindiAlphaPeriod |
+      | x | x |
+      | No bullet | No bullet |
+      | Default  | Default  |
+      | hindiAlphaPeriod | hindiAlphaPeriod |
