@@ -469,14 +469,14 @@ class CT_TextParagraphProperties(BaseOxmlElement):
     _add_spcAft: Callable[[], CT_TextSpacing]
     _add_spcBef: Callable[[], CT_TextSpacing]
     _add_buNone: Callable[[], CT_TextNoBullet]
-    _add_buChar: Callable[[], CT_TextCharBullet]
     _add_buAutoNum: Callable[[], CT_TextAutoNumberBullet]
+    _add_buChar: Callable[[], CT_TextCharBullet]
     _remove_lnSpc: Callable[[], None]
     _remove_spcAft: Callable[[], None]
     _remove_spcBef: Callable[[], None]
     _remove_buNone: Callable[[], None]
-    _remove_buChar: Callable[[], None]
     _remove_buAutoNum: Callable[[], CT_TextAutoNumberBullet]
+    _remove_buChar: Callable[[], None]
 
     _tag_seq = (
         "a:lnSpc",
