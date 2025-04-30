@@ -149,24 +149,25 @@ The following continues from the previous example, changes the first bullet
 to an "x", and changes the second and third sub-bullets to be numbered::
 
     from pptx.enum.text import MSO_NUMBERED_BULLET_STYLE
+    from pptx.util import BulletStyle
 
     p = text_frame.paragraphs[0]
-    p.bullet = "x"
+    p.bullet = BulletStyle.custom("x")
 
     for p in text_frame.paragraphs[1:]:
-        p = MSO_NUMBERED_BULLET_STYLE.ARABIC_PERIOD
+        p.bullet = BulletStyle.numbered(MSO_NUMBERED_BULLET_STYLE.ARABIC_PERIOD)
 
 The ``.bullet`` attribute can also be used to remove bullet formatting::
 
     p = text_frame.add_paragraph()
     p.text = "This is not a bullet!"
-    p.bullet = False
+    p.bullet = BulletStyle.NO_BULLET
 
 Finally, the attribute can also be used to revert a paragraph back to the
 slide's default bullet configuration::
 
     p.text = "Now it's a bullet again."
-    p.bullet = None
+    p.bullet = BulletStyle.DEFAULT
 
 Applying character formatting
 -----------------------------
