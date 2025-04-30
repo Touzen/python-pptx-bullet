@@ -554,8 +554,8 @@ class _Paragraph(Subshape):
         A string value means that the paragraph has a bullet set to this string. If the value
         is an |MSO_NUMBERED_BULLET_STYLE|, then the paragraph's bullet is automatically
         numbered according to the corresponding style. |False| indicates that bullets are
-        turned off for this paragraph. |None| indicates that a bullet exists if the template
-        of the current slide defines this as the default form for paragraphs.
+        turned off for this paragraph. |None| indicates that a bullet exists if the master or
+        slide layout defines this as the default for paragraphs.
         """
         pPr = self._p.pPr
         if pPr is None:
