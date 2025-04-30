@@ -16,7 +16,7 @@ from pptx.opc.constants import RELATIONSHIP_TYPE as RT
 from pptx.opc.package import XmlPart
 from pptx.shapes.autoshape import Shape
 from pptx.text.text import Font, TextFrame, _Hyperlink, _Paragraph, _Run
-from pptx.util import Inches, Pt
+from pptx.util import BulletStyle, Inches, Pt
 
 from ..oxml.unitdata.text import a_p, a_t, an_hlinkClick, an_r, an_rPr
 from ..unitutil.cxml import element, xml
@@ -1127,26 +1127,22 @@ class Describe_Paragraph(object):
     
     @pytest.fixture(
         params=[
-            ("a:p", "x", "a:p/a:pPr/a:buChar{char=x}"),
-            ("a:p/a:pPr/a:buChar", "x", "a:p/a:pPr/a:buChar{char=x}"),
-            ("a:p/a:pPr/a:buNone", "x", "a:p/a:pPr/a:buChar{char=x}"),
-            ("a:p/a:pPr/a:buAutoNum", "x", "a:p/a:pPr/a:buChar{char=x}"),
-            ("a:p", True, u"a:p/a:pPr/a:buChar{char=\u2022}"),
-            ("a:p/a:pPr/a:buChar", True, u"a:p/a:pPr/a:buChar{char=\u2022}"),
-            ("a:p/a:pPr/a:buNone", True, u"a:p/a:pPr/a:buChar{char=\u2022}"),
-            ("a:p/a:pPr/a:buAutoNum", True, u"a:p/a:pPr/a:buChar{char=\u2022}"),
-            ("a:p", False, "a:p/a:pPr/a:buNone"),
-            ("a:p/a:pPr/a:buChar", False, "a:p/a:pPr/a:buNone"),
-            ("a:p/a:pPr/a:buNone", False, "a:p/a:pPr/a:buNone"),
-            ("a:p/a:pPr/a:buAutoNum", False, "a:p/a:pPr/a:buNone"),
-            ("a:p", None, "a:p/a:pPr"),
-            ("a:p/a:pPr/a:buNone", None, "a:p/a:pPr"),
-            ("a:p/a:pPr/a:buChar", None, "a:p/a:pPr"),
-            ("a:p/a:pPr/a:buAutoNum", None, "a:p/a:pPr"),
-            ("a:p", MSO_NUMBERED_BULLET_STYLE.ROMAN_UC_PERIOD, "a:p/a:pPr/a:buAutoNum{type=romanUCPeriod}"),
-            ("a:p/a:pPr/a:buChar", MSO_NUMBERED_BULLET_STYLE.ALPHA_LC_PERIOD, "a:p/a:pPr/a:buAutoNum{type=alphaLCPeriod}"),
-            ("a:p/a:pPr/a:buNone", MSO_NUMBERED_BULLET_STYLE.ARABIC_ABJAD_DASH, "a:p/a:pPr/a:buAutoNum{type=arabicAbjadDash}"),
-            ("a:p/a:pPr/a:buAutoNum", MSO_NUMBERED_BULLET_STYLE.TRAD_CHIN_PLAIN, "a:p/a:pPr/a:buAutoNum{type=tradChinPlain}"),
+            ("a:p", BulletStyle.custom("x"), "a:p/a:pPr/a:buChar{char=x}"),
+            ("a:p/a:pPr/a:buChar", BulletStyle.custom("x"), "a:p/a:pPr/a:buChar{char=x}"),
+            ("a:p/a:pPr/a:buNone", BulletStyle.custom("x"), "a:p/a:pPr/a:buChar{char=x}"),
+            ("a:p/a:pPr/a:buAutoNum", BulletStyle.custom("x"), "a:p/a:pPr/a:buChar{char=x}"),
+            ("a:p", BulletStyle.NO_BULLET, "a:p/a:pPr/a:buNone"),
+            ("a:p/a:pPr/a:buChar", BulletStyle.NO_BULLET, "a:p/a:pPr/a:buNone"),
+            ("a:p/a:pPr/a:buNone", BulletStyle.NO_BULLET, "a:p/a:pPr/a:buNone"),
+            ("a:p/a:pPr/a:buAutoNum", BulletStyle.NO_BULLET, "a:p/a:pPr/a:buNone"),
+            ("a:p", BulletStyle.DEFAULT, "a:p/a:pPr"),
+            ("a:p/a:pPr/a:buNone", BulletStyle.DEFAULT, "a:p/a:pPr"),
+            ("a:p/a:pPr/a:buChar", BulletStyle.DEFAULT, "a:p/a:pPr"),
+            ("a:p/a:pPr/a:buAutoNum", BulletStyle.DEFAULT, "a:p/a:pPr"),
+            ("a:p", BulletStyle.numbered(MSO_NUMBERED_BULLET_STYLE.ROMAN_UC_PERIOD), "a:p/a:pPr/a:buAutoNum{type=romanUCPeriod}"),
+            ("a:p/a:pPr/a:buChar", BulletStyle.numbered(MSO_NUMBERED_BULLET_STYLE.ALPHA_LC_PERIOD), "a:p/a:pPr/a:buAutoNum{type=alphaLCPeriod}"),
+            ("a:p/a:pPr/a:buNone", BulletStyle.numbered(MSO_NUMBERED_BULLET_STYLE.ARABIC_ABJAD_DASH), "a:p/a:pPr/a:buAutoNum{type=arabicAbjadDash}"),
+            ("a:p/a:pPr/a:buAutoNum", BulletStyle.numbered(MSO_NUMBERED_BULLET_STYLE.TRAD_CHIN_PLAIN), "a:p/a:pPr/a:buAutoNum{type=tradChinPlain}"),
         ]
     )
     def bullet_set_fixture(self, request):
