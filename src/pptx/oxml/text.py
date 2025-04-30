@@ -12,6 +12,7 @@ from pptx.enum.text import (
     MSO_TEXT_UNDERLINE_TYPE,
     MSO_VERTICAL_ANCHOR,
     PP_PARAGRAPH_ALIGNMENT,
+    BulletStyleType,
 )
 from pptx.exc import InvalidXmlError
 from pptx.oxml import parse_xml
@@ -40,7 +41,7 @@ from pptx.oxml.xmlchemy import (
     ZeroOrOne,
     ZeroOrOneChoice,
 )
-from pptx.util import Emu, Length
+from pptx.util import BulletStyle, Emu, Length
 
 if TYPE_CHECKING:
     from pptx.oxml.action import CT_Hyperlink
@@ -552,44 +553,37 @@ class CT_TextParagraphProperties(BaseOxmlElement):
             self._add_lnSpc().set_spcPct(value)
 
     @property
-    def bullet(self) -> bool | str | MSO_NUMBERED_BULLET_STYLE | None:
-        """The type of bullet used for this paragraph.
-
-        A string value means that the paragraph has a bullet set to this string. If the value
-        is an |MSO_NUMBERED_BULLET_STYLE|, then the paragraph's bullet is automatically
-        numbered according to the corresponding style. |False| indicates that bullets are
-        turned off for this paragraph. |None| indicates that a bullet exists if the master or
-        slide layout defines this as the default for paragraphs.
-        """
+    def bullet(self) -> BulletStyle:
+        """The style of bullet used for this paragraph."""
         buNone = self.buNone
         buChar = self.buChar
         buAutoNum = self.buAutoNum
+
         if buChar is not None:
-            return buChar.char
-        if buAutoNum is not None:
-            return buAutoNum.val
-        if buNone is not None:
-            return False
+            return BulletStyle.custom(buChar.char)
+        elif buAutoNum is not None:
+            return BulletStyle.numbered(buAutoNum.val)
+        elif buNone is not None:
+            return BulletStyle.NO_BULLET
+        else:
+            return BulletStyle.DEFAULT
 
     @bullet.setter
-    def bullet(self, value: bool | str | MSO_NUMBERED_BULLET_STYLE | None):
+    def bullet(self, value: BulletStyle):
         self._remove_buNone()
         self._remove_buChar()
         self._remove_buAutoNum()
-        if value is None:
+
+        if value == BulletStyle.DEFAULT:
             return
-        if isinstance(value, bool):
-            if value:
-                buChar = self._add_buChar()
-                buChar.char = u"\u2022"
-            else:
-                self._add_buNone()
-        elif isinstance(value, MSO_NUMBERED_BULLET_STYLE):
-            buAutoNum = self._add_buAutoNum()
-            buAutoNum.val = value
-        else:
+        elif value == BulletStyle.NO_BULLET:
+            self._add_buNone()
+        elif value.style == BulletStyleType.CUSTOM:
             buChar = self._add_buChar()
-            buChar.char = value
+            buChar.char = cast(str, value.value)
+        elif value.style == BulletStyleType.NUMBERED:
+            buAutoNum = self._add_buAutoNum()
+            buAutoNum.val = cast(MSO_NUMBERED_BULLET_STYLE, value.value)
 
 
     @property
