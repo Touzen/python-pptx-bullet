@@ -875,6 +875,11 @@ class Describe_Paragraph(object):
         paragraph.bullet = new_value
         assert paragraph._element.xml == expected_xml
 
+    def it_knows_its_bullet(self, bullet_get_fixture):
+        paragraph, expected_bullet = bullet_get_fixture
+        print(paragraph.bullet, expected_bullet)
+        assert paragraph.bullet == expected_bullet
+
     @pytest.mark.parametrize(
         ("p_cxml", "value", "expected_cxml"),
         [
@@ -1151,6 +1156,19 @@ class Describe_Paragraph(object):
         expected_xml = xml(expected_p_cxml)
         return paragraph, new_value, expected_xml
 
+    @pytest.fixture(
+        params=[
+            ("a:p", BulletStyle.DEFAULT),
+            ("a:p/a:pPr", BulletStyle.DEFAULT),
+            ("a:p/a:pPr/a:buNone", BulletStyle.NO_BULLET),
+            ("a:p/a:pPr/a:buChar{char=x}", BulletStyle.custom("x")),
+            ("a:p/a:pPr/a:buAutoNum{type=romanUCPeriod}", BulletStyle.numbered(MSO_NUMBERED_BULLET_STYLE.ROMAN_UC_PERIOD)),
+        ]
+    )
+    def bullet_get_fixture(self, request):
+        p_cxml, expected_bullet = request.param
+        paragraph = _Paragraph(element(p_cxml), None)
+        return paragraph, expected_bullet
 
     # fixture components -----------------------------------
 

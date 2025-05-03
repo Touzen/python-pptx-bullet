@@ -13,7 +13,7 @@ from pptx.oxml.simpletypes import ST_TextWrappingType
 from pptx.shapes import Subshape
 from pptx.text.fonts import FontFiles
 from pptx.text.layout import TextFitter
-from pptx.util import Centipoints, Emu, Length, Pt, lazyproperty
+from pptx.util import BulletStyle, Centipoints, Emu, Length, Pt, lazyproperty
 
 if TYPE_CHECKING:
     from pptx.dml.color import ColorFormat
@@ -548,22 +548,24 @@ class _Paragraph(Subshape):
         pPr.line_spacing = value
 
     @property
-    def bullet(self) -> bool | str | MSO_NUMBERED_BULLET_STYLE | None:
-        """The type of bullet used for this paragraph.
+    def bullet(self) -> BulletStyle:
+        """The type of bullet, if any, defined for this paragraph.
 
-        A string value means that the paragraph has a bullet set to this string. If the value
-        is an |MSO_NUMBERED_BULLET_STYLE|, then the paragraph's bullet is automatically
-        numbered according to the corresponding style. |False| indicates that bullets are
-        turned off for this paragraph. |None| indicates that a bullet exists if the master or
-        slide layout defines this as the default for paragraphs.
+        ``BulletStyle.NO_BULLET`` indicates that bullets are explicitly disabled
+        a paragraph. ``BulletStyle.DEFAULT`` indicates that whether the paragraph
+        is rendered as a bullet is defined in the slide master or layout.
+        
+        The methods ``BulletStyle.custom`` and ``BulletStyle.numbered`` can be
+        used to create ``BulletStyle``s that control what kind of bullet is used
+        for the paragraph.
         """
         pPr = self._p.pPr
         if pPr is None:
-            return None
+            return BulletStyle.DEFAULT
         return pPr.bullet
     
     @bullet.setter
-    def bullet(self, value: bool | str | MSO_NUMBERED_BULLET_STYLE | None):
+    def bullet(self, value: BulletStyle):
         pPr = self._p.get_or_add_pPr()
         pPr.bullet = value
 
